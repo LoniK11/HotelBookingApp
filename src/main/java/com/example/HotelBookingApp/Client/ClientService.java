@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -22,5 +23,15 @@ public class ClientService {
 
     public ResponseEntity<List<ClientEntity>> getAllClients(){
         return ResponseEntity.ok(this.clientRepository.findAll().stream().toList());
+    }
+
+    public ResponseEntity<ClientEntity> getClientById(int id){
+        Optional<ClientEntity> client = this.clientRepository.findById(id);
+
+        if(client.isPresent()){
+            return ResponseEntity.ok(client.get());
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 }

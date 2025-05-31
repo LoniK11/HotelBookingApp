@@ -24,4 +24,11 @@ public class ClientController {
     public ResponseEntity<List<ClientEntity>> getAllClients(){
         return this.clientService.getAllClients();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientEntity> getClientById(@PathVariable("id") int id){
+        return this.clientService.getClientById(id);
+    }
+
+
 }
