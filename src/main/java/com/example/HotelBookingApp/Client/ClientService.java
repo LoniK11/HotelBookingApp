@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClientService {
 
@@ -16,5 +18,9 @@ public class ClientService {
     public ResponseEntity<String> addNewClient(ClientEntity client){
          this.clientRepository.save(client);
          return ResponseEntity.status(HttpStatus.CREATED).body("Client added successfully!");
+    }
+
+    public ResponseEntity<List<ClientEntity>> getAllClients(){
+        return ResponseEntity.ok(this.clientRepository.findAll().stream().toList());
     }
 }
