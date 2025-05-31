@@ -34,4 +34,16 @@ public class ClientService {
             return ResponseEntity.notFound().build();
         }
     }
+
+    public ResponseEntity<String> deleteClientById(int id){
+        Optional<ClientEntity> client = this.clientRepository.findById(id);
+
+        if(client.isPresent()){
+            this.clientRepository.deleteById(id);
+            return ResponseEntity.ok("Client deleted successfully!");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find client!");
+        }
+
+    }
 }
