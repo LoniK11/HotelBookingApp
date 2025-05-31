@@ -44,6 +44,24 @@ public class ClientService {
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find client!");
         }
+    }
 
+    public ResponseEntity<String> updateClientById(int id, ClientEntity updatedClient){
+        Optional<ClientEntity> existingClient = this.clientRepository.findById(id);
+
+        if(existingClient.isPresent()){
+            ClientEntity client = existingClient.get();
+
+            client.setFirstName(updatedClient.getFirstName());
+            client.setLastName(updatedClient.getLastName());
+            client.setEmail(updatedClient.getEmail());
+            client.setPhone(updatedClient.getPhone());
+
+            this.clientRepository.save(client);
+
+            return ResponseEntity.ok("Client updated successfully!");
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find client!");
+        }
     }
 }
