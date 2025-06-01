@@ -41,4 +41,14 @@ public class RoomController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRoomById(@PathVariable("id") int id){
+        try{
+            this.roomService.deleteRoomById(id);
+            return ResponseEntity.ok("Room deleted successfully!");
+        }catch (NoSuchElementException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No room found!");
+        }
+    }
 }

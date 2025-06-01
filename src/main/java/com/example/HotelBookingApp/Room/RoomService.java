@@ -29,4 +29,11 @@ public class RoomService {
                 .orElseThrow(() -> new NoSuchElementException("No room found!"));
     }
 
+    public void deleteRoomById(int id){
+        if(!this.roomRepository.existsById(id)){
+            throw new NoSuchElementException("No room found!");
+        }
+
+        this.roomRepository.deleteById(id);
+    }
 }
