@@ -1,10 +1,8 @@
 package com.example.HotelBookingApp.Room;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class RoomService {
@@ -26,5 +24,9 @@ public class RoomService {
         return this.roomRepository.findAll();
     }
 
+    public RoomEntity getRoomById(int id){
+        return this.roomRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("No room found!"));
+    }
 
 }

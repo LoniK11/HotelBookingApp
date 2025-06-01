@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/room")
@@ -29,5 +30,15 @@ public class RoomController {
     @GetMapping
     public List<RoomEntity> getAllRooms(){
         return this.roomService.getAllRooms();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RoomEntity> getRoomById(@PathVariable("id") int id){
+        try{
+            RoomEntity room = this.roomService.getRoomById(id);
+            return ResponseEntity.ok(room);
+        }catch (NoSuchElementException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }
