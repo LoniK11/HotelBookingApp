@@ -3,6 +3,7 @@ package com.example.HotelBookingApp.Room;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class RoomService {
@@ -35,5 +36,17 @@ public class RoomService {
         }
 
         this.roomRepository.deleteById(id);
+    }
+
+    public RoomEntity updateRoomById(int id, RoomEntity updatedRoom){
+
+        RoomEntity room = this.roomRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("No room found!"));
+
+        room.setRoomNumber(updatedRoom.getRoomNumber());
+        room.setRoomType(updatedRoom.getRoomType());
+        room.setPricePerNight(updatedRoom.getPricePerNight());
+
+        return this.roomRepository.save(room);
     }
 }
