@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -16,52 +17,39 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public ResponseEntity<String> addNewClient(ClientEntity client){
-         this.clientRepository.save(client);
-         return ResponseEntity.status(HttpStatus.CREATED).body("Client added successfully!");
-    }
-
-    public ResponseEntity<List<ClientEntity>> getAllClients(){
-        return ResponseEntity.ok(this.clientRepository.findAll().stream().toList());
-    }
-
-    public ResponseEntity<ClientEntity> getClientById(int id){
-        Optional<ClientEntity> client = this.clientRepository.findById(id);
-
-        if(client.isPresent()){
-            return ResponseEntity.ok(client.get());
-        }else{
-            return ResponseEntity.notFound().build();
+    public ClientEntity addNewClient(ClientEntity client){
+        if(client == null){
+            throw new IllegalArgumentException("Client cannot be null!");
         }
+
+        return this.clientRepository.save(client);
     }
 
-    public ResponseEntity<String> deleteClientById(int id){
-        Optional<ClientEntity> client = this.clientRepository.findById(id);
-
-        if(client.isPresent()){
-            this.clientRepository.deleteById(id);
-            return ResponseEntity.ok("Client deleted successfully!");
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find client!");
-        }
+    public List<ClientEntity> getAllClients(){
+        return this.clientRepository.findAll();
     }
 
-    public ResponseEntity<String> updateClientById(int id, ClientEntity updatedClient){
-        Optional<ClientEntity> existingClient = this.clientRepository.findById(id);
+    public ClientEntity getClientById(int id){
+        return this.clientRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("No client found!"));
+    }
 
-        if(existingClient.isPresent()){
-            ClientEntity client = existingClient.get();
-
-            client.setFirstName(updatedClient.getFirstName());
-            client.setLastName(updatedClient.getLastName());
-            client.setEmail(updatedClient.getEmail());
-            client.setPhone(updatedClient.getPhone());
-
-            this.clientRepository.save(client);
-
-            return ResponseEntity.ok("Client updated successfully!");
-        }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Cannot find client!");
+    public void deleteClientById(int id){
+        if(!this.clientRepository.existsById(id)){
+            throw new NoSuchElementException("No client found!");
         }
+        this.clientRepository.deleteById(id);
+    }
+
+    public ClientEntity updateClientById(int id, ClientEntity updatedClient) {
+        ClientEntity client = this.clientRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("No client found!"));
+
+        client.setFirstName(updatedClient.getFirstName());
+        client.setLastName(updatedClient.getLastName());
+        client.setEmail(updatedClient.getEmail());
+        client.setPhone(updatedClient.getPhone());
+
+        return this.clientRepository.save(client);
     }
 }
