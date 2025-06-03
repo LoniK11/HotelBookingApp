@@ -69,6 +69,14 @@ public class BookingService {
         return this.bookingRepository.findAll();
     }
 
+    public List<BookingEntity> getBookingsByClientId(int id){
+        if(!this.clientRepository.existsById(id)){
+            throw new NoSuchElementException("No client found!");
+        }
+
+        return this.bookingRepository.getBookingsByClientId(id);
+    }
+
     public void deleteBookingById(int id){
         if(!this.bookingRepository.existsById(id)){
             throw new NoSuchElementException("No booking found!");

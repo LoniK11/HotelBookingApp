@@ -1,7 +1,10 @@
 package com.example.HotelBookingApp.Client;
 
+import com.example.HotelBookingApp.Booking.BookingEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "clients")

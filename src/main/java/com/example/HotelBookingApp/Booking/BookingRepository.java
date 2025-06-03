@@ -16,4 +16,7 @@ public interface BookingRepository extends JpaRepository<BookingEntity, Integer>
             @Param("checkInDate") LocalDate checkInDate,
             @Param("checkOutDate") LocalDate checkOutDate
     );
+
+    @Query("SELECT b FROM BookingEntity b WHERE b.client.clientId = :id")
+    public List<BookingEntity> getBookingsByClientId(@Param("id") int id);
 }

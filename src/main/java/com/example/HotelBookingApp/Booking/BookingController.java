@@ -37,6 +37,15 @@ public class BookingController {
         return this.bookingService.getAllBookings();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<List<BookingEntity>> getBookingsByUserId(@PathVariable("id") int id){
+        try{
+            return ResponseEntity.ok(this.bookingService.getBookingsByClientId(id));
+        } catch(NoSuchElementException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBookingById(@PathVariable("id") int id){
         try {
