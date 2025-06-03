@@ -68,4 +68,12 @@ public class BookingService {
     public List<BookingEntity> getAllBookings(){
         return this.bookingRepository.findAll();
     }
+
+    public void deleteBookingById(int id){
+        if(!this.bookingRepository.existsById(id)){
+            throw new NoSuchElementException("No booking found!");
+        }
+
+        this.bookingRepository.deleteById(id);
+    }
 }

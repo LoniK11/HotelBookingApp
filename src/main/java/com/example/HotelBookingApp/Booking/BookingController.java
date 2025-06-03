@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/booking")
@@ -34,5 +35,15 @@ public class BookingController {
     @GetMapping
     public List<BookingEntity> getAllBookings(){
         return this.bookingService.getAllBookings();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteBookingById(@PathVariable("id") int id){
+        try {
+            this.bookingService.deleteBookingById(id);
+            return ResponseEntity.ok("Booking deleted successfully!");
+        }catch (NoSuchElementException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No booking found!");
+        }
     }
 }
