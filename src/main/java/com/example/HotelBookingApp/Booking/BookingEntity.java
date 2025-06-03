@@ -5,8 +5,7 @@ import com.example.HotelBookingApp.Room.RoomEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "booking")
@@ -23,10 +22,10 @@ public class BookingEntity {
     private int bookingId;
 
     @Column(name = "check_in_date")
-    private LocalDateTime checkInDate;
+    private LocalDate checkInDate;
 
     @Column(name = "check_out_date")
-    private LocalDateTime checkOutDate;
+    private LocalDate checkOutDate;
 
     @Column(name = "total_price")
     private double totalPrice;
