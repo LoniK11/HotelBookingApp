@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -60,5 +62,13 @@ public class RoomController {
         }catch (NoSuchElementException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No room found!");
         }
+    }
+
+    @GetMapping("/free")
+    public Map<LocalDate,List<RoomEntity>> getAllFreeRooms(
+            @RequestParam("startDate") LocalDate startDate,
+            @RequestParam("endDate") LocalDate endDate
+    ){
+        return this.roomService.getAllFreeRooms(startDate,endDate);
     }
 }

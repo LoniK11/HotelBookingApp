@@ -28,7 +28,9 @@ public class BookingService {
     }
 
     public BookingEntity addNewBooking(BookingDTO bookingDTO){
-        if(bookingDTO.getCheckInDate().isAfter(bookingDTO.getCheckOutDate())){
+        if(bookingDTO.getCheckInDate().isAfter(bookingDTO.getCheckOutDate()) ||
+         bookingDTO.getCheckInDate().equals(bookingDTO.getCheckOutDate())
+        ){
             throw new IllegalArgumentException("Starting date cannot be after ending date!");
         }
 

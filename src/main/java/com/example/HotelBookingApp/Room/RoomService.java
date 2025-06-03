@@ -1,9 +1,10 @@
 package com.example.HotelBookingApp.Room;
 
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 @Service
 public class RoomService {
@@ -48,5 +49,20 @@ public class RoomService {
         room.setPricePerNight(updatedRoom.getPricePerNight());
 
         return this.roomRepository.save(room);
+    }
+
+    public Map<LocalDate, List<RoomEntity>> getAllFreeRooms(LocalDate startDate, LocalDate endDate){
+        Map<LocalDate, List<RoomEntity>> freeRoomPerDay = new TreeMap<>();
+
+        LocalDate currentDate = startDate;
+        while(!currentDate.isAfter(endDate)){
+            freeRoomPerDay.put(
+                    currentDate,
+                    this.roomRepository.getAllFreeRooms(currentDate)
+            );
+            currentDate = currentDate.plusDays(1);
+        }
+
+        return freeRoomPerDay;
     }
 }
